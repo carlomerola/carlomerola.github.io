@@ -42,13 +42,27 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: space-between;
   padding: 18px clamp(20px, 5vw, 60px);
-  transition: background 0.4s, border-color 0.4s, padding 0.4s;
+  transition: border-color 0.4s, padding 0.4s;
   border-bottom: 1px solid transparent;
 }
 
-.site-header.scrolled {
+/* Background/blur lives on a pseudo-element so the header itself does NOT
+   become the containing block for the position:fixed mobile menu overlay. */
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: transparent;
+  transition: background 0.4s, backdrop-filter 0.4s;
+}
+
+.site-header.scrolled::before {
   background: rgba(20, 17, 13, 0.85);
   backdrop-filter: blur(10px);
+}
+
+.site-header.scrolled {
   border-bottom: 1px solid rgba(201, 169, 110, 0.18);
   padding-top: 12px;
   padding-bottom: 12px;
